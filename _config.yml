@@ -1,7 +1,7 @@
 title: ssbt's blog # name of the site
 author: ssbt # name of site's author
 email: 3393019220@qq.com # email of site's author
-url: https://ssbt.github.io # root address of the site
+url: https://kwssbt.github.io # root address of the site
 baseurl: "/no-style-please" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
 description: > # description of the site (multiple lines allowed)
   I am the bone of my sword.
