@@ -10,9 +10,13 @@ entries:
   - title: all posts
     post_list: true
 
-  - title: posts by category
+  - title: algorithm
     post_list:
-      category: C++
+      category: algorithm
+
+  - title: talk
+    post_list:
+      category: talk
 
   - title: projects
     entries:
