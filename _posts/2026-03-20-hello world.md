@@ -1,14 +1,14 @@
 ---
 layout: post
 date: 2026-03-20
-category: talk
+category: talks
 ---
 
 ## Life is coding, and I am debugging it.
 
-本博客今日启用。
+本博客于 2026-3-21 启用。
 
-我将在这里记录我的学习生活。
+我将在这里记录我的学习与生活。
 
 ## 测试代码块
 

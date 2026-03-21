@@ -1,27 +1,26 @@
 entries:
-  - title: Welcome to ssbt's blog.
+  - title: Welcome to my blog!
 
-  - title: info
+  - title: about me
     entries:
-      - title: "Life is coding, and I am debugging it."
-      - title: "CS Undergraduate, Class of 2029 @ BUPT"
+      - title: "CSer, Class of 2029 @ BUPT"
       - title: "Part-time Runner | Casual Foodie"
 
   - title: all posts
     post_list: true
 
-  - title: algorithm
+  - title: notes
     post_list:
-      category: algorithm
+      category: notes
 
-  - title: talk
+  - title: talks
     post_list:
-      category: talk
+      category: talks
 
   - title: projects
     entries:
-      - title: LeetCode Daily Archive
-        url: https://github.com/kwssbt/Leetcode-Daily-Archive
+      - title: LeetCode Automata
+        url: https://github.com/kwssbt/LeetCode-Automata#
       - title: BUPT-Project-Phase-1
         url: https://github.com/kwssbt/BUPT-Project-Phase-1
 
