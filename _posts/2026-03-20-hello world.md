@@ -6,7 +6,7 @@ category: talks
 
 ## Life is coding, and I am debugging it.
 
-本博客于 2026-3-21 启用。
+本博客于 2026-3-20 启用。
 
 我将在这里记录我的学习与生活。
 
