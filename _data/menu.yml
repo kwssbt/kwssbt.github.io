@@ -19,6 +19,8 @@ entries:
 
   - title: projects
     entries:
+      - title: Leetcode每日一题记录
+        url: https://github.com/kwssbt/Leetcode-Daily-Archive
       - title: LeetCode Automata
         url: https://github.com/kwssbt/LeetCode-Automata#
       - title: BUPT-Project-Phase-1
