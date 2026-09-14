@@ -22,6 +22,7 @@ npm install        # 安装依赖
 npm run dev        # 本地开发，默认 http://localhost:4321
 npm run build      # 构建到 dist/
 npm run preview    # 预览构建产物
+npm run new -- <文件名> "标题"   # 按模板新建一篇文章
 ```
 
 Astro 7 的 `npm run dev` 会把 dev server 放到后台常驻：`npx astro dev status` 看状态，`npx astro dev stop` 停掉。4321 被占用时会自动改用 4322 等端口，启动日志里会打印实际地址。
@@ -45,7 +46,15 @@ public/                 favicon、robots.txt 等原样拷贝的静态文件
 
 ## 写一篇新文章
 
-在 `src/content/posts/` 下新建 `标题.md`（文件名最好用英文短横线格式），frontmatter：
+用模板生成，文件名和标题一起给：
+
+```bash
+npm run new -- binary-inversion "二项式反演"
+```
+
+它会把 [templates/post.md](templates/post.md) 里的 `{{title}}`、`{{date}}` 替换好，生成 `src/content/posts/binary-inversion.md`，日期取本地当天，默认 `draft: true`。已存在的文件不会被覆盖。想改默认内容就直接编辑 `templates/post.md`（加常用小节、改 tags 等等），也可以用 `npm run new -- 文件名` 只给文件名、标题后面自己填。
+
+不想用命令就手动复制一份 `templates/post.md`，注意把两个占位符替换掉。生成后的 frontmatter：
 
 ```yaml
 ---
