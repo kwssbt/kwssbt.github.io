@@ -153,4 +153,5 @@ git push
 
 - 改站点标题、描述、页脚署名：`src/consts.ts`
 - 改配色、字体、内容宽度：`src/styles/global.css` 顶部的 CSS 变量
+- 改站点图标：替换 `src/assets/favicon-source.jpg`（自动对准人物脸部的裁剪，范围在脚本里）后跑 `npm run favicon`，会重新生成 `public/` 下的三张 PNG
 - 加标签页、文章目录、评论等功能告诉我，我接着加
