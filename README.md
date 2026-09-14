@@ -27,6 +27,19 @@ npm run new -- <文件名> "标题"   # 按模板新建一篇文章
 
 Astro 7 的 `npm run dev` 会把 dev server 放到后台常驻：`npx astro dev status` 看状态，`npx astro dev stop` 停掉。4321 被占用时会自动改用 4322 等端口，启动日志里会打印实际地址。
 
+## 预览
+
+按需要选一种：
+
+| 方式 | 怎么做 | 说明 |
+| --- | --- | --- |
+| 编辑器内快速看 | 在 `.md` 里按 `Ctrl+K` 再按 `V` | 不用起服务器；公式需要装 Markdown Preview Enhanced 之类的扩展才渲染 |
+| 和线上一致（推荐） | 终端 `npm run dev`，浏览器开 <http://localhost:4321> | 改动即时刷新；加 `-- --open` 会自动打开浏览器 |
+| 看真实构建产物 | `npm run build && npm run preview` | 和线上一样不带草稿，`draft: true` 的文章看不到 |
+| 直接看线上 | 提交推送后访问 <https://kwssbt.github.io/> | 部署要一两分钟 |
+
+在 VS Code 里也可以不用敲命令：`Ctrl+Shift+P` → `Tasks: Run Task`，选 `.vscode/tasks.json` 里预置的四项（启动预览 / 构建预览 / 停止服务器 / 构建校验）。其中"启动预览"绑定了默认构建任务，直接按 `Ctrl+Shift+B` 就能跑。
+
 ## 目录结构
 
 ```
