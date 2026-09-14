@@ -55,6 +55,10 @@ src/pages/404.astro     404 页
 src/pages/rss.xml.ts    RSS 输出
 src/styles/global.css   全站样式（含深色模式变量）
 public/                 favicon、robots.txt 等原样拷贝的静态文件
+templates/post.md       新文章模板，npm run new 与 VS Code 片段都用它
+scripts/                new-post.mjs（生成文章）、make-favicon.mjs（生成图标）
+.vscode/                文章片段、预览任务、扩展推荐
+docs/markdown.md        Markdown 语法速查（本站实测）
 ```
 
 ## 写一篇新文章
@@ -91,6 +95,8 @@ draft: false           # 可选，true 时只在 npm run dev 里可见
 另外还有一个 `math` 片段：正文里输入 `math` 按 `Tab` 展开成 `$$...$$` 公式块。
 
 访问地址由文件名决定：`src/content/posts/binary-inversion.md` → `/posts/binary-inversion/`，所以**改文件名等于改 URL**。
+
+各种语法的实测结果（表格对齐、公式、折叠块、脚注、`$` 转义等）整理在 [docs/markdown.md](docs/markdown.md)。
 
 ## 日常工作流
 
