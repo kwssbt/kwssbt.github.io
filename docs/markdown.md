@@ -41,14 +41,41 @@
 - [ ] 未完成
 ```
 
-## 链接与图片
+## 链接
 
 ```md
 [链接文字](https://example.com)
 https://example.com               # 直接写网址也会自动识别成链接
-![图片说明](/images/foo.png)       # public/images/ 里的图，原样拷贝，路径固定
-![图片说明](../../assets/foo.png)  # src/assets/ 里的图，构建时自动压缩
 ```
+
+## 图片
+
+图片放哪儿、怎么写，实测结果如下：
+
+| 图片位置 | 写法 | 构建后 |
+| --- | --- | --- |
+| `public/images/foo.png` | `![说明](/images/foo.png)` | 原样拷贝，路径固定，不压缩 |
+| `src/assets/foo.png` | `![说明](../../assets/foo.png)` | 自动压缩、转 WebP、加哈希、加懒加载和宽高 |
+| 和文章放同一目录 | `![说明](./foo.png)` | 同上，图片跟着文章走，最省心 |
+
+三种常用写法：
+
+```md
+![图片说明](/images/foo.png)                      # 最省事
+
+[![图片说明](/images/foo.png)](/images/foo.png)    # 点击看大图
+
+<figure>
+<img src="/images/foo.png" width="320" alt="图片说明">
+<figcaption>图注写这里</figcaption>
+</figure>
+```
+
+⚠️ 想控制宽度只能用 HTML 的 `<img width="...">`，Markdown 语法本身不支持设置尺寸。代价是 HTML 标签里的路径**不会被自动优化**：
+
+- 用 HTML 标签时，图片请放在 `public/`，路径写 `/images/foo.png`
+- HTML 标签里写 `../../assets/foo.png` 这类相对路径**不生效**，线上会 404
+- 想让下载的文件更小，要么自己先压缩再放进 `public/`，要么改用 Markdown 语法让构建时生成 WebP
 
 ## 引用、分隔线与换行
 
