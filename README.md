@@ -24,6 +24,8 @@ npm run build      # 构建到 dist/
 npm run preview    # 预览构建产物
 ```
 
+Astro 7 的 `npm run dev` 会把 dev server 放到后台常驻：`npx astro dev status` 看状态，`npx astro dev stop` 停掉。4321 被占用时会自动改用 4322 等端口，启动日志里会打印实际地址。
+
 ## 目录结构
 
 ```
@@ -57,6 +59,35 @@ draft: false           # 可选，true 时只在 npm run dev 里可见
 
 访问地址由文件名决定：`src/content/posts/binary-inversion.md` → `/posts/binary-inversion/`，所以**改文件名等于改 URL**。
 
+## 日常工作流
+
+1. 换电脑或换环境时先 `git pull`，然后 `npm install`
+2. `npm run dev` 起本地预览，浏览器打开 <http://localhost:4321>（改动会热更新，不用刷新）
+3. 在 `src/content/posts/` 新建 Markdown 文件，写完保存即时看到效果
+4. 发布前想看真实产物就 `npm run build && npm run preview`
+5. 提交并发布：
+
+```bash
+git add -A
+git commit -m "新增：二项式反演"
+git push
+```
+
+推送后 GitHub Actions 自动构建部署，一两分钟后线上更新。构建进度和报错日志在仓库的 Actions 标签页。
+
+### 草稿
+
+frontmatter 里写 `draft: true`：本地 `npm run dev` 能看到，正式构建和线上不会出现。定稿时改成 `false` 或删掉这一行。
+
+## 图片
+
+两种放法，按需要选：
+
+- **简单**：图片放进 `public/images/`（目录不存在就新建），正文写 `![说明](/images/foo.png)`。文件原样拷贝，路径固定，适合截图和动图。
+- **会做优化**：图片放进 `src/assets/`，正文用相对路径 `![说明](../../assets/foo.png)`。构建时生成带哈希的文件、自动压缩，并补上 `loading="lazy"`、宽高（减少布局抖动）。
+
+图片会一起进 git 仓库，建议先压缩再放进来，单张尽量控制在几百 KB 以内。
+
 ## 数学公式
 
 行内用 `$...$`，独立成行用 `$$...$$`，其余交给 KaTeX：
@@ -76,6 +107,14 @@ git push
 推送到 `master` 会触发 `.github/workflows/deploy.yml`：`npm ci` → `npm run build` → 上传 `dist/` 并发布到 GitHub Pages。
 
 如果部署失败，先确认仓库 Settings → Pages 里 Source 选的是 **GitHub Actions**。
+
+## 维护
+
+- **确认线上状态**：访问 <https://kwssbt.github.io/>，或看仓库 Actions 最近一次运行是否绿色
+- **升级依赖**：`npm outdated` 看新版本 → `npm install astro@latest`（或对应包）→ 本地 `npm run build` 通过后再提交
+- **回滚**：`git revert <commit>` 后 push，Actions 会重新部署到上一版可用状态；临时救急也可以在 GitHub 上把某次成功的部署重新发布
+- **备份**：文章、图片、配置都在 git 里，本地 + GitHub 各一份，不用额外备份；`dist/`、`node_modules/` 是产物，不入库
+- **换机器**：`git clone` → `npm install` → 正常写作，环境要求只有 Node ≥ 22.12
 
 ## 自定义
 
