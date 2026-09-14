@@ -1,5 +1,5 @@
-export const SITE_TITLE = "ssbt's blog";
-export const SITE_DESCRIPTION = "Life is coding, and I am debugging it.";
+export const SITE_TITLE = "ZJ";
+export const SITE_DESCRIPTION = "For a big dream or for nothing.";
 export const SITE_AUTHOR = "ssbt";
 export const SITE_GITHUB = "https://github.com/kwssbt";
 
