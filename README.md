@@ -2,65 +2,83 @@
 
 个人博客，线上地址：<https://kwssbt.github.io/>
 
-- **Jekyll** 静态站点，主题为 [no-style-please](https://github.com/riggraz/no-style-please)，主题文件已内置到本仓库的 `_layouts/`、`_includes/`、`_sass/`，不依赖远程主题
-- **jektex** 在构建期把 `$...$` 渲染成 KaTeX 结构，页面通过 CDN 引入 KaTeX 样式
-- **GitHub Actions** 构建并发布到 GitHub Pages（仓库 `kwssbt/kwssbt.github.io`，分支 `master`）
+用 [Astro](https://astro.build/) 搭建的静态站点，文章是 Markdown 文件，推送到 `master` 后由 GitHub Actions 构建并发布到 GitHub Pages。
+
+## 技术栈
+
+| 用途 | 方案 |
+| --- | --- |
+| 框架 | Astro 7（需要 Node ≥ 22.12） |
+| 文章 | `src/content/posts/` 下的 Markdown，content collections + glob loader |
+| 数学公式 | `remark-math` + `rehype-katex`，构建期渲染，字体自动本地化，访问时不需要联网 |
+| 代码高亮 | Shiki，亮/暗两套主题随系统切换 |
+| RSS / sitemap | `@astrojs/rss`、`@astrojs/sitemap` |
+| 部署 | GitHub Actions → GitHub Pages（`master` 分支） |
+
+## 常用命令
+
+```bash
+npm install        # 安装依赖
+npm run dev        # 本地开发，默认 http://localhost:4321
+npm run build      # 构建到 dist/
+npm run preview    # 预览构建产物
+```
 
 ## 目录结构
 
 ```
-_config.yml        站点配置：标题、URL、插件、主题外观、排除文件等
-index.md           首页，使用 home 布局
-_data/menu.yml     首页导航结构，改导航只需要动这个文件
-_posts/            文章，文件名必须是 YYYY-MM-DD-slug.md
-_layouts/          页面模板：default / home / post / page / archive
-_includes/         可复用片段：head、导航、文章列表等
-_sass/             主题样式，编译到 assets/css/main.css
-assets/            图片与脚本
-notes.md/talks.md  分类归档页，按 category 聚合文章
-404.md             404 页面
-robots.txt         爬虫规则，内含 sitemap 地址
+astro.config.mjs        站点配置：site、sitemap、markdown 处理器与代码高亮主题
+src/consts.ts           站点标题、描述、作者、日期格式化等全局常量
+src/content.config.ts   文章集合的 schema（frontmatter 字段定义）
+src/content/posts/      文章目录，一个 Markdown 文件就是一篇文章
+src/layouts/            BaseLayout（页面骨架）、PostLayout（文章页）
+src/pages/index.astro   首页文章列表
+src/pages/posts/        文章列表页与 [...slug] 详情路由
+src/pages/about.astro   关于页
+src/pages/404.astro     404 页
+src/pages/rss.xml.ts    RSS 输出
+src/styles/global.css   全站样式（含深色模式变量）
+public/                 favicon、robots.txt 等原样拷贝的静态文件
 ```
-
-## 本地预览
-
-需要 Ruby 3.4+ 与 Bundler：
-
-```bash
-bundle install
-bundle exec jekyll serve --livereload
-```
-
-浏览器打开 <http://127.0.0.1:4000/>。`bundle install` 会生成 `Gemfile.lock`，请把它一起提交，这样本地与 CI 的依赖版本完全一致。
 
 ## 写一篇新文章
 
-在 `_posts/` 下新建 `YYYY-MM-DD-标题.md`：月份和日期要补零，文件名里不要出现空格（空格会被转换成连字符，容易和预期不符）。正文用 Markdown 写，文件头的 front matter 如下：
+在 `src/content/posts/` 下新建 `标题.md`（文件名最好用英文短横线格式），frontmatter：
 
 ```yaml
 ---
-layout: post
 title: 文章标题
-date: 2026-03-26
-category: notes      # 目前只有 notes / talks，新增分类要同步改 _data/menu.yml
-description: 一句话摘要，用于搜索结果和分享卡片
+date: 2026-09-14
+description: 一句话摘要，会进 RSS 和页面 meta
+tags: [算法, 笔记]      # 可选
+draft: false           # 可选，true 时只在 npm run dev 里可见
 ---
 ```
 
-- 访问地址由 `_config.yml` 里的 `permalink: /:slug.html` 决定，`slug` 取自文件名去掉日期后的部分，所以**改文件名等于改 URL**
-- 分类归档页参考 `notes.md`，`which_category` 要和文章里的 `category` 一致
-- 首页导航由 `_data/menu.yml` 驱动：`post_list` 会内联渲染文章列表，`url` 则把条目标题变成链接
+访问地址由文件名决定：`src/content/posts/binary-inversion.md` → `/posts/binary-inversion/`，所以**改文件名等于改 URL**。
 
 ## 数学公式
 
-行内公式用 `$...$`，独立成行的用 `$$...$$`。jektex 在构建时完成渲染，因此公式在浏览器端不需要额外的 JS；但 KaTeX 的样式表来自 CDN，离线查看时公式排版会退化。
+行内用 `$...$`，独立成行用 `$$...$$`，其余交给 KaTeX：
+
+```markdown
+二项式反演：$g(k) = \sum_{i=k}^{n} (-1)^{i-k} \binom{i}{k} f(i)$
+```
 
 ## 部署
 
-推送到 `master` 即触发 `.github/workflows/jekyll.yml`：构建 `_site/` 并上传到 GitHub Pages。
+```bash
+git add -A
+git commit -m "写点什么"
+git push
+```
 
-建议在仓库 Settings → Pages 里确认 Source 为 **GitHub Actions**，避免旧的分支部署方式同时生效、互相覆盖产物。
+推送到 `master` 会触发 `.github/workflows/deploy.yml`：`npm ci` → `npm run build` → 上传 `dist/` 并发布到 GitHub Pages。
 
-## 许可
+如果部署失败，先确认仓库 Settings → Pages 里 Source 选的是 **GitHub Actions**。
 
-文章内容版权归作者所有；主题代码来自 no-style-please，遵循 MIT 许可，详见 `LICENSE.txt`。
+## 自定义
+
+- 改站点标题、描述、页脚署名：`src/consts.ts`
+- 改配色、字体、内容宽度：`src/styles/global.css` 顶部的 CSS 变量
+- 加标签页、文章目录、评论等功能告诉我，我接着加

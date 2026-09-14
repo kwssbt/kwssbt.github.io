@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE_DESCRIPTION, formatDate } from "../consts";
+
+const posts = (
+  await getCollection("posts", ({ data }) => import.meta.env.DEV || !data.draft)
+).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout>
+  <p class="intro">{SITE_DESCRIPTION}</p>
+
+  {
+    posts.length === 0 ? (
+      <p>还没有文章。在 <code>src/content/posts/</code> 里新建一个 Markdown 文件就能开始写。</p>
+    ) : (
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li>
+            <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+            <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</BaseLayout>

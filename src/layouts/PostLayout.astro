@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from "astro:content";
+import "katex/dist/katex.min.css";
+import BaseLayout from "./BaseLayout.astro";
+import { SITE_TITLE, formatDate } from "../consts";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { title, date, description, tags } = post.data;
+---
+
+<BaseLayout title={title} description={description ?? SITE_TITLE}>
+  <article>
+    <p class="post-meta">
+      <time datetime={date.toISOString()}>{formatDate(date)}</time>
+    </p>
+    <h1>{title}</h1>
+
+    <slot />
+
+    {
+      tags.length > 0 && (
+        <ul class="tags">
+          {tags.map((tag) => (
+            <li>{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </article>
+
+  <p class="back"><a href="/posts/">← 所有文章</a></p>
+</BaseLayout>
