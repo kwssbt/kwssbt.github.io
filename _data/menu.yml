@@ -10,12 +10,22 @@ entries:
     post_list: true
 
   - title: notes
+    url: /notes.html
     post_list:
       category: notes
+      limit: 5
+      show_more: true
+      show_more_text: "more notes..."
+      show_more_url: /notes.html
 
   - title: talks
+    url: /talks.html
     post_list:
       category: talks
+      limit: 5
+      show_more: true
+      show_more_text: "more talks..."
+      show_more_url: /talks.html
 
   - title: contact me
     entries:
@@ -23,7 +33,7 @@ entries:
       - title: Email(kakehgarabedian@gmail.com)
       - title: Github
         url: https://github.com/kwssbt
-      - title: used Blog
+      - title: old blog
         url: https://ssbt.lilys.top/
 
 

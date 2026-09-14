@@ -1,7 +1,9 @@
 ---
 layout: post
+title: Hello, World!
 date: 2026-03-20
 category: talks
+description: 博客开张,记录学习与生活,顺带测试代码块、超链接与图片。
 ---
 
 ## Life is coding, and I am debugging it.

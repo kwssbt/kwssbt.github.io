@@ -2,7 +2,11 @@
   {%-for item in include.collection-%}
     <li>
     {%- if item.url -%}
-      <a href="{{ item.url }}">{{ item.title }}</a>
+      {%- assign item_href = item.url -%}
+      {%- unless item_href contains "://" -%}
+        {%- assign item_href = item_href | relative_url -%}
+      {%- endunless -%}
+      <a href="{{ item_href }}">{{ item.title }}</a>
     {%- else -%}
       {{ item.title }}
     {%- endif -%}
