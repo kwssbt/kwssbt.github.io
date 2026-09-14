@@ -1,0 +1,24 @@
+{
+  "新文章 frontmatter": {
+    "scope": "markdown",
+    "prefix": "post",
+    "body": [
+      "---",
+      "title: ${1:文章标题}",
+      "date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "description: ${2:一句话摘要，会进 RSS 和页面 meta}",
+      "tags: [${3:}]",
+      "draft: true",
+      "---",
+      "",
+      "${0}"
+    ],
+    "description": "插入文章 frontmatter，日期自动填今天"
+  },
+  "数学公式块": {
+    "scope": "markdown",
+    "prefix": "math",
+    "body": ["$$", "${1}", "$$", "$0"],
+    "description": "插入独立成行的公式块"
+  }
+}

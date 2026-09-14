@@ -66,6 +66,17 @@ draft: false           # 可选，true 时只在 npm run dev 里可见
 ---
 ```
 
+### 在 VS Code 里手动新建文件
+
+1. 在 `src/content/posts/` 上右键 → 新建文件，文件名用英文短横线格式，例如 `binary-inversion.md`
+2. 光标停在第一行，输入 `post`，按 `Tab`（或从补全提示里选「新文章 frontmatter」）
+3. 模板展开后按 `Tab` 依次填标题、摘要、tags，日期已经自动填成今天
+4. `npm run dev` 跑着，浏览器开 <http://localhost:4321> 边写边看
+
+片段定义在 `.vscode/post.code-snippets`，是仓库文件，换机器也会跟着走。它和 `templates/post.md` 的内容一致，改了一处记得同步另一处；改完片段如果没生效，重新加载一下 VS Code 窗口即可。
+
+另外还有一个 `math` 片段：正文里输入 `math` 按 `Tab` 展开成 `$$...$$` 公式块。
+
 访问地址由文件名决定：`src/content/posts/binary-inversion.md` → `/posts/binary-inversion/`，所以**改文件名等于改 URL**。
 
 ## 日常工作流
