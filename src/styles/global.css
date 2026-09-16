@@ -209,9 +209,18 @@ pre code {
 
 .post-list time {
   flex: none;
+  white-space: nowrap;
   color: var(--muted);
   font-size: 0.85rem;
   font-variant-numeric: tabular-nums;
+}
+
+/* 窄屏时让时间与标题分两行，避免标题被挤成一条竖线 */
+@media (max-width: 30rem) {
+  .post-list li {
+    flex-wrap: wrap;
+    gap: 0.15rem 0.6rem;
+  }
 }
 
 .post-meta {

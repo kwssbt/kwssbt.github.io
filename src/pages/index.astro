@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SITE_DESCRIPTION, formatDate } from "../consts";
+import { SITE_DESCRIPTION, formatDateTime } from "../consts";
 
 const posts = (
   await getCollection("posts", ({ data }) => import.meta.env.DEV || !data.draft)
@@ -18,7 +18,7 @@ const posts = (
       <ul class="post-list">
         {posts.map((post) => (
           <li>
-            <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+            <time datetime={post.data.date.toISOString()}>{formatDateTime(post.data.date)}</time>
             <a href={`/posts/${post.id}/`}>{post.data.title}</a>
           </li>
         ))}

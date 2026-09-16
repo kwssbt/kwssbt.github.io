@@ -47,10 +47,12 @@ try {
   process.exit(1);
 }
 
-// 用本地日期，避免时区导致差一天
+// 用本地时间（北京时间），精确到分钟，便于同一天多篇按时间排序
 const now = new Date();
 const pad = (n) => String(n).padStart(2, "0");
-const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+const date =
+  `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}` +
+  ` ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
 const content = template
   .replaceAll("{{title}}", title)

@@ -5,7 +5,7 @@
     "body": [
       "---",
       "title: ${1:}",
-      "date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}",
       "description: ${2:}",
       "tags: [${3:}]",
       "draft: true",
@@ -13,7 +13,7 @@
       "",
       "${0}"
     ],
-    "description": "插入文章 frontmatter，日期自动填今天"
+    "description": "插入文章 frontmatter，时间自动填当前日期与时分"
   },
   "数学公式块": {
     "scope": "markdown",

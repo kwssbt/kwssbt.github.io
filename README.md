@@ -76,7 +76,7 @@ npm run new -- binary-inversion "二项式反演"
 ```yaml
 ---
 title: 文章标题
-date: 2026-09-14
+date: 2026-09-14 21:30    # 精确到分钟，按北京时间
 description: 一句话摘要，会进 RSS 和页面 meta
 tags: [算法, 笔记]      # 可选
 draft: false           # 可选，true 时只在 npm run dev 里可见

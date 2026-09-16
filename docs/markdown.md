@@ -168,3 +168,4 @@ int main() {
 - **文件名决定 URL**：`src/content/posts/foo.md` → `/posts/foo/`，改文件名等于改 URL；页面显示的标题取 frontmatter 里的 `title`
 - **tags 必须是数组**：`tags: [算法, 数学]`，写成字符串会导致构建失败
 - **draft**：`draft: true` 时只有 `npm run dev` 能看到，线上不会出现
+- **时间写到分钟**：`date: 2026-09-16 21:30`，同一天的多篇就按这个时间排序；不带时区时按北京时间解释（构建机时区已在 `astro.config.mjs` 和 CI 里固定为 `Asia/Shanghai`）
