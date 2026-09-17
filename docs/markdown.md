@@ -59,8 +59,10 @@ https://example.com               # 直接写网址也会自动识别成链接
 放进来之前先压一下（长边超过 1600px 的照片缩到 1600px，截图保留原尺寸）：
 
 ```bash
-npm run optimize-images
+npm run op
 ```
+
+（完整写法是 `npm run optimize-images`，`op` 是简写。）
 
 ⚠️ `public/` 里的文件是**原样拷贝**：不会自动压缩、不会转 WebP、也不会自动加懒加载，所以压缩要自己做。
 
@@ -89,7 +91,7 @@ npm run optimize-images
 
 - 用 HTML 标签时，图片请放在 `public/`，路径写 `/images/foo.png`
 - HTML 标签里写 `../../assets/foo.png` 这类相对路径**不生效**，线上会 404
-- 想让下载的文件更小，就先跑 `npm run optimize-images` 再放进 `public/images/`
+- 想让下载的文件更小，就先跑 `npm run op` 再放进 `public/images/`
 
 ## 引用、分隔线与换行
 
