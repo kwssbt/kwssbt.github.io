@@ -54,7 +54,7 @@ src/pages/about.astro   关于页
 src/pages/404.astro     404 页
 src/pages/rss.xml.ts    RSS 输出
 src/styles/global.css   全站样式（含深色模式变量）
-public/                 favicon、robots.txt 等原样拷贝的静态文件
+public/                 favicon、robots.txt、images/（文章图片）等原样拷贝的静态文件
 templates/post.md       新文章模板，npm run new 与 VS Code 片段都用它
 scripts/                new-post.mjs（生成文章）、make-favicon.mjs（生成图标）
 .vscode/                文章片段、预览任务、扩展推荐

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * 压缩文章目录里的原图：
+ * 压缩图片目录里的原图：
  *
  *   npm run optimize-images
  *
+ * 处理 public/images/ 与 src/content/posts/ 两个目录里的 JPG。
  * 规则：
  *  - 长边超过 1600px 的照片缩到 1600px（文章正文最多显示 600 多像素宽，够用）
  *  - 文件名带 Screenshot 的（手机截图，文字多）保留原尺寸，只重新编码
@@ -15,59 +16,67 @@ import { readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
-const DIR = "src/content/posts";
+const DIRS = ["public/images", "src/content/posts"];
 const MAX_EDGE = 1600;
 const QUALITY = 82;
-
-const files = (await readdir(DIR)).filter((file) => /\.(jpe?g)$/i.test(file));
-
-if (files.length === 0) {
-  console.log(`在 ${DIR} 里没找到 JPG 图片。`);
-  process.exit(0);
-}
 
 const kb = (bytes) => `${Math.round(bytes / 1024)}KB`;
 let totalBefore = 0;
 let totalAfter = 0;
+let processed = 0;
 
-for (const file of files) {
-  const target = path.join(DIR, file);
-  const before = (await stat(target)).size;
-  const buffer = await readFile(target);
-  const meta = await sharp(buffer).metadata();
+for (const dir of DIRS) {
+  let entries = [];
+  try {
+    entries = (await readdir(dir)).filter((file) => /\.(jpe?g)$/i.test(file));
+  } catch {
+    continue;
+  }
 
-  const isScreenshot = /screenshot/i.test(file);
-  const pipeline = isScreenshot
-    ? sharp(buffer)
-    : sharp(buffer).resize({
-        width: MAX_EDGE,
-        height: MAX_EDGE,
-        fit: "inside",
-        withoutEnlargement: true,
-      });
+  for (const file of entries) {
+    const target = path.join(dir, file);
+    const before = (await stat(target)).size;
+    const buffer = await readFile(target);
+    const meta = await sharp(buffer).metadata();
 
-  const output = await pipeline.jpeg({ quality: QUALITY, mozjpeg: true }).toBuffer();
-  const after = output.length;
-  const outMeta = await sharp(output).metadata();
+    const isScreenshot = /screenshot/i.test(file);
+    const pipeline = isScreenshot
+      ? sharp(buffer)
+      : sharp(buffer).resize({
+          width: MAX_EDGE,
+          height: MAX_EDGE,
+          fit: "inside",
+          withoutEnlargement: true,
+        });
 
-  totalBefore += before;
-  totalAfter += after;
+    const output = await pipeline.jpeg({ quality: QUALITY, mozjpeg: true }).toBuffer();
+    const after = output.length;
+    const outMeta = await sharp(output).metadata();
 
-  if (after < before) {
-    await writeFile(target, output);
-    console.log(
-      `${file}\n  ${meta.width}x${meta.height} ${kb(before)} → ` +
-        `${outMeta.width}x${outMeta.height} ${kb(after)}` +
-        `${isScreenshot ? "（截图：保留原尺寸）" : ""}`,
-    );
-  } else {
-    console.log(`${file}\n  ${kb(before)} → 压缩后反而更大，保持原样`);
-    totalAfter = totalAfter - after + before;
+    totalBefore += before;
+    totalAfter += after;
+    processed += 1;
+
+    if (after < before) {
+      await writeFile(target, output);
+      console.log(
+        `${target}\n  ${meta.width}x${meta.height} ${kb(before)} → ` +
+          `${outMeta.width}x${outMeta.height} ${kb(after)}` +
+          `${isScreenshot ? "（截图：保留原尺寸）" : ""}`,
+      );
+    } else {
+      console.log(`${target}\n  ${kb(before)} → 压缩后反而更大，保持原样`);
+      totalAfter = totalAfter - after + before;
+    }
   }
 }
 
-console.log(
-  `\n合计：${kb(totalBefore)} → ${kb(totalAfter)}（省了 ${Math.round(
-    (1 - totalAfter / totalBefore) * 100,
-  )}%）`,
-);
+if (processed === 0) {
+  console.log("没找到需要处理的 JPG 图片。");
+} else {
+  console.log(
+    `\n合计：${kb(totalBefore)} → ${kb(totalAfter)}（省了 ${Math.round(
+      (1 - totalAfter / totalBefore) * 100,
+    )}%）`,
+  );
+}

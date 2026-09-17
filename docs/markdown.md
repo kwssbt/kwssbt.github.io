@@ -50,13 +50,27 @@ https://example.com               # 直接写网址也会自动识别成链接
 
 ## 图片
 
-图片放哪儿、怎么写，实测结果如下：
+本博客的图片统一放在 `public/images/`，正文里用 `/images/文件名` 引用：
+
+```md
+![图片说明](/images/foo.jpg)
+```
+
+放进来之前先压一下（长边超过 1600px 的照片缩到 1600px，截图保留原尺寸）：
+
+```bash
+npm run optimize-images
+```
+
+⚠️ `public/` 里的文件是**原样拷贝**：不会自动压缩、不会转 WebP、也不会自动加懒加载，所以压缩要自己做。
+
+其他可选位置（实测对比）：
 
 | 图片位置 | 写法 | 构建后 |
 | --- | --- | --- |
-| `public/images/foo.png` | `![说明](/images/foo.png)` | 原样拷贝，路径固定，不压缩 |
-| `src/assets/foo.png` | `![说明](../../assets/foo.png)` | 自动压缩、转 WebP、加哈希、加懒加载和宽高 |
-| 和文章放同一目录 | `![说明](./foo.png)` | 同上，图片跟着文章走，最省心 |
+| `public/images/foo.jpg`（本博客用法） | `![说明](/images/foo.jpg)` | 原样拷贝，地址固定 |
+| `src/assets/foo.jpg` | `![说明](../../assets/foo.jpg)` | 自动压缩、转 WebP、加哈希、加懒加载和宽高 |
+| 和文章放同一目录 | `![说明](./foo.jpg)` | 同上 |
 
 三种常用写法：
 
@@ -75,7 +89,7 @@ https://example.com               # 直接写网址也会自动识别成链接
 
 - 用 HTML 标签时，图片请放在 `public/`，路径写 `/images/foo.png`
 - HTML 标签里写 `../../assets/foo.png` 这类相对路径**不生效**，线上会 404
-- 想让下载的文件更小，要么自己先压缩再放进 `public/`，要么改用 Markdown 语法让构建时生成 WebP
+- 想让下载的文件更小，就先跑 `npm run optimize-images` 再放进 `public/images/`
 
 ## 引用、分隔线与换行
 
